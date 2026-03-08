@@ -1,18 +1,49 @@
 {
   "entity_types": [
     {
-      "name": "Victim",
-      "description": "性侵案件的未成年受害者",
+      "name": "GovernmentOfficial",
+      "description": "政府公职人员，包括在职公务员和事业编制人员",
+      "attributes": [
+        {
+          "name": "full_name",
+          "type": "text",
+          "description": "公职人员姓名"
+        },
+        {
+          "name": "position",
+          "type": "text",
+          "description": "职务或岗位"
+        },
+        {
+          "name": "agency_name",
+          "type": "text",
+          "description": "所属机构名称"
+        }
+      ],
+      "examples": [
+        "法院职工",
+        "公安民警",
+        "检察官"
+      ]
+    },
+    {
+      "name": "Minor",
+      "description": "未成年受害者，特指遭受侵害的未成年人",
       "attributes": [
         {
           "name": "age",
           "type": "text",
-          "description": "受害者年龄"
+          "description": "年龄"
         },
         {
           "name": "gender",
           "type": "text",
-          "description": "受害者性别"
+          "description": "性别"
+        },
+        {
+          "name": "guardian_name",
+          "type": "text",
+          "description": "监护人姓名"
         }
       ],
       "examples": [
@@ -21,7 +52,7 @@
     },
     {
       "name": "Parent",
-      "description": "受害者的父母或监护人",
+      "description": "未成年人的父母或法定监护人",
       "attributes": [
         {
           "name": "full_name",
@@ -29,9 +60,14 @@
           "description": "家长姓名"
         },
         {
-          "name": "role",
+          "name": "relationship",
           "type": "text",
-          "description": "角色描述"
+          "description": "与未成年人关系"
+        },
+        {
+          "name": "location",
+          "type": "text",
+          "description": "所在地"
         }
       ],
       "examples": [
@@ -39,144 +75,156 @@
       ]
     },
     {
-      "name": "Suspect",
-      "description": "犯罪嫌疑人，法院职工",
-      "attributes": [
-        {
-          "name": "position",
-          "type": "text",
-          "description": "职位描述"
-        },
-        {
-          "name": "employer",
-          "type": "text",
-          "description": "所属单位"
-        }
-      ],
-      "examples": [
-        "法院职工"
-      ]
-    },
-    {
-      "name": "PoliceAgency",
-      "description": "公安机关，负责案件受理和侦查",
-      "attributes": [
-        {
-          "name": "org_name",
-          "type": "text",
-          "description": "公安机关名称"
-        },
-        {
-          "name": "location",
-          "type": "text",
-          "description": "所在地区"
-        }
-      ],
-      "examples": [
-        "科尔沁左翼后旗公安局刑事警察大队"
-      ]
-    },
-    {
-      "name": "Procuratorate",
-      "description": "检察院，负责审查起诉",
-      "attributes": [
-        {
-          "name": "org_name",
-          "type": "text",
-          "description": "检察院名称"
-        },
-        {
-          "name": "location",
-          "type": "text",
-          "description": "所在地区"
-        }
-      ],
-      "examples": [
-        "科尔沁左翼后旗检察院"
-      ]
-    },
-    {
-      "name": "Court",
-      "description": "人民法院",
-      "attributes": [
-        {
-          "name": "org_name",
-          "type": "text",
-          "description": "法院名称"
-        },
-        {
-          "name": "location",
-          "type": "text",
-          "description": "所在地区"
-        }
-      ],
-      "examples": [
-        "科尔沁左翼后旗人民法院"
-      ]
-    },
-    {
       "name": "MediaOutlet",
-      "description": "新闻媒体机构",
+      "description": "正规新闻媒体机构，包括报纸、电视台、新闻网站",
       "attributes": [
         {
           "name": "org_name",
           "type": "text",
-          "description": "媒体名称"
+          "description": "媒体机构名称"
         },
         {
-          "name": "media_type",
+          "name": "platform",
           "type": "text",
-          "description": "媒体类型"
+          "description": "主要平台类型"
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "description": "媒体简介"
         }
       ],
       "examples": [
         "澎湃网",
-        "法律人那些事"
+        "澎湃新闻"
       ]
     },
     {
-      "name": "SupremeProcuratorate",
-      "description": "最高人民检察院",
+      "name": "GovernmentAgency",
+      "description": "政府执法和司法机关",
       "attributes": [
         {
           "name": "org_name",
           "type": "text",
-          "description": "最高检名称"
+          "description": "机构名称"
         },
         {
-          "name": "function",
+          "name": "agency_type",
           "type": "text",
-          "description": "职能描述"
+          "description": "机构类型"
+        },
+        {
+          "name": "location",
+          "type": "text",
+          "description": "所在地"
         }
       ],
       "examples": [
+        "科尔沁左翼后旗公安局",
+        "科尔沁左翼后旗检察院",
+        "科尔沁左翼后旗人民法院",
         "最高人民检察院"
       ]
     },
     {
-      "name": "Person",
-      "description": "任何自然人个体，包括网民、自媒体作者等",
+      "name": "Journalist",
+      "description": "从事新闻报道的记者或编辑人员",
       "attributes": [
         {
           "name": "full_name",
           "type": "text",
-          "description": "姓名或昵称"
+          "description": "记者姓名"
         },
         {
-          "name": "account_type",
+          "name": "media_outlet",
           "type": "text",
-          "description": "账号类型"
+          "description": "所属媒体"
+        },
+        {
+          "name": "role",
+          "type": "text",
+          "description": "职责角色"
+        }
+      ],
+      "examples": [
+        "澎湃新闻记者"
+      ]
+    },
+    {
+      "name": "PublicAccount",
+      "description": "微信公众号等自媒体平台账号",
+      "attributes": [
+        {
+          "name": "account_name",
+          "type": "text",
+          "description": "公众号名称"
+        },
+        {
+          "name": "platform",
+          "type": "text",
+          "description": "所属平台"
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "description": "公众号简介"
+        }
+      ],
+      "examples": [
+        "法律人那些事"
+      ]
+    },
+    {
+      "name": "Netizen",
+      "description": "在社交媒体上发表评论的普通网民",
+      "attributes": [
+        {
+          "name": "nickname",
+          "type": "text",
+          "description": "网名或昵称"
+        },
+        {
+          "name": "platform",
+          "type": "text",
+          "description": "活跃平台"
+        },
+        {
+          "name": "comment_type",
+          "type": "text",
+          "description": "评论立场类型"
         }
       ],
       "examples": [
         "展望未来999",
         "f6hjnc8sgj",
-        "读书得间"
+        "茹雪",
+        "期待祖国早日统一"
+      ]
+    },
+    {
+      "name": "Person",
+      "description": "自然人个体的兜底类型，不属于上述具体类型时使用",
+      "attributes": [
+        {
+          "name": "full_name",
+          "type": "text",
+          "description": "姓名"
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "description": "个人描述"
+        }
+      ],
+      "examples": [
+        "路人",
+        "网友",
+        "普通民众"
       ]
     },
     {
       "name": "Organization",
-      "description": "任何组织机构，包括其他政府部门、企事业单位等",
+      "description": "组织机构的兜底类型，不属于上述具体组织类型时使用",
       "attributes": [
         {
           "name": "org_name",
@@ -184,114 +232,133 @@
           "description": "组织名称"
         },
         {
-          "name": "org_type",
+          "name": "description",
           "type": "text",
-          "description": "组织类型"
+          "description": "组织描述"
         }
       ],
       "examples": [
-        "通辽市政府",
-        "未成年人保护组织"
+        "酒店",
+        "临时团体",
+        "小型机构"
       ]
     }
   ],
   "edge_types": [
     {
+      "name": "REPORTS_ON",
+      "description": "媒体或记者对事件进行新闻报道",
+      "source_targets": [
+        {
+          "source": "MediaOutlet",
+          "target": "GovernmentAgency"
+        },
+        {
+          "source": "Journalist",
+          "target": "GovernmentAgency"
+        }
+      ],
+      "attributes": []
+    },
+    {
       "name": "FILES_REPORT",
-      "description": "向媒体反映或报案",
+      "description": "当事人或家属向相关部门报案",
       "source_targets": [
         {
           "source": "Parent",
-          "target": "MediaOutlet"
-        },
-        {
-          "source": "Parent",
-          "target": "PoliceAgency"
+          "target": "GovernmentAgency"
         }
       ],
       "attributes": []
     },
     {
       "name": "INVESTIGATES",
-      "description": "公安机关侦查案件",
+      "description": "公安机关对案件进行调查",
       "source_targets": [
         {
-          "source": "PoliceAgency",
-          "target": "Suspect"
+          "source": "GovernmentAgency",
+          "target": "GovernmentOfficial"
         }
       ],
       "attributes": []
     },
     {
       "name": "PROSECUTES",
-      "description": "检察院审查起诉",
+      "description": "检察院对案件进行审查起诉",
       "source_targets": [
         {
-          "source": "Procuratorate",
-          "target": "Suspect"
+          "source": "GovernmentAgency",
+          "target": "GovernmentOfficial"
         }
       ],
       "attributes": []
     },
     {
-      "name": "REPORTS_ON",
-      "description": "媒体报道事件",
+      "name": "COMMENTS_ON",
+      "description": "网民或自媒体对事件发表观点评论",
       "source_targets": [
         {
-          "source": "MediaOutlet",
-          "target": "Suspect"
+          "source": "Netizen",
+          "target": "GovernmentAgency"
         },
         {
-          "source": "MediaOutlet",
-          "target": "Victim"
+          "source": "PublicAccount",
+          "target": "GovernmentAgency"
         }
       ],
       "attributes": []
     },
     {
-      "name": "POSTS_OPINION",
-      "description": "网民发表观点评论",
+      "name": "WORKS_FOR",
+      "description": "个人在某个机构工作",
       "source_targets": [
         {
-          "source": "Person",
-          "target": "Suspect"
-        },
+          "source": "GovernmentOfficial",
+          "target": "GovernmentAgency"
+        }
+      ],
+      "attributes": []
+    },
+    {
+      "name": "AFFILIATED_WITH",
+      "description": "个人与某机构存在隶属或关联关系",
+      "source_targets": [
         {
-          "source": "Person",
+          "source": "Journalist",
           "target": "MediaOutlet"
         }
       ],
       "attributes": []
     },
     {
-      "name": "ISSUES_GUIDANCE",
-      "description": "最高检发布指导性文件",
+      "name": "REPRESENTS",
+      "description": "媒体或账号代表某主体发声",
       "source_targets": [
         {
-          "source": "SupremeProcuratorate",
-          "target": "Procuratorate"
-        }
-      ],
-      "attributes": []
-    },
-    {
-      "name": "EMPLOYS",
-      "description": "雇佣关系",
-      "source_targets": [
-        {
-          "source": "Court",
-          "target": "Suspect"
+          "source": "MediaOutlet",
+          "target": "Person"
         }
       ],
       "attributes": []
     },
     {
       "name": "PROTECTS",
-      "description": "保护未成年人权益",
+      "description": "相关部门或个人保护未成年人权益",
       "source_targets": [
         {
-          "source": "Organization",
-          "target": "Victim"
+          "source": "GovernmentAgency",
+          "target": "Minor"
+        }
+      ],
+      "attributes": []
+    },
+    {
+      "name": "IS_GUARDIAN_OF",
+      "description": "监护人代表未成年人利益",
+      "source_targets": [
+        {
+          "source": "Parent",
+          "target": "Minor"
         }
       ],
       "attributes": []
