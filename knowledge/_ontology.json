@@ -1,0 +1,300 @@
+{
+  "entity_types": [
+    {
+      "name": "Victim",
+      "description": "性侵案件的未成年受害者",
+      "attributes": [
+        {
+          "name": "age",
+          "type": "text",
+          "description": "受害者年龄"
+        },
+        {
+          "name": "gender",
+          "type": "text",
+          "description": "受害者性别"
+        }
+      ],
+      "examples": [
+        "13岁受害少女"
+      ]
+    },
+    {
+      "name": "Parent",
+      "description": "受害者的父母或监护人",
+      "attributes": [
+        {
+          "name": "full_name",
+          "type": "text",
+          "description": "家长姓名"
+        },
+        {
+          "name": "role",
+          "type": "text",
+          "description": "角色描述"
+        }
+      ],
+      "examples": [
+        "周先生"
+      ]
+    },
+    {
+      "name": "Suspect",
+      "description": "犯罪嫌疑人，法院职工",
+      "attributes": [
+        {
+          "name": "position",
+          "type": "text",
+          "description": "职位描述"
+        },
+        {
+          "name": "employer",
+          "type": "text",
+          "description": "所属单位"
+        }
+      ],
+      "examples": [
+        "法院职工"
+      ]
+    },
+    {
+      "name": "PoliceAgency",
+      "description": "公安机关，负责案件受理和侦查",
+      "attributes": [
+        {
+          "name": "org_name",
+          "type": "text",
+          "description": "公安机关名称"
+        },
+        {
+          "name": "location",
+          "type": "text",
+          "description": "所在地区"
+        }
+      ],
+      "examples": [
+        "科尔沁左翼后旗公安局刑事警察大队"
+      ]
+    },
+    {
+      "name": "Procuratorate",
+      "description": "检察院，负责审查起诉",
+      "attributes": [
+        {
+          "name": "org_name",
+          "type": "text",
+          "description": "检察院名称"
+        },
+        {
+          "name": "location",
+          "type": "text",
+          "description": "所在地区"
+        }
+      ],
+      "examples": [
+        "科尔沁左翼后旗检察院"
+      ]
+    },
+    {
+      "name": "Court",
+      "description": "人民法院",
+      "attributes": [
+        {
+          "name": "org_name",
+          "type": "text",
+          "description": "法院名称"
+        },
+        {
+          "name": "location",
+          "type": "text",
+          "description": "所在地区"
+        }
+      ],
+      "examples": [
+        "科尔沁左翼后旗人民法院"
+      ]
+    },
+    {
+      "name": "MediaOutlet",
+      "description": "新闻媒体机构",
+      "attributes": [
+        {
+          "name": "org_name",
+          "type": "text",
+          "description": "媒体名称"
+        },
+        {
+          "name": "media_type",
+          "type": "text",
+          "description": "媒体类型"
+        }
+      ],
+      "examples": [
+        "澎湃网",
+        "法律人那些事"
+      ]
+    },
+    {
+      "name": "SupremeProcuratorate",
+      "description": "最高人民检察院",
+      "attributes": [
+        {
+          "name": "org_name",
+          "type": "text",
+          "description": "最高检名称"
+        },
+        {
+          "name": "function",
+          "type": "text",
+          "description": "职能描述"
+        }
+      ],
+      "examples": [
+        "最高人民检察院"
+      ]
+    },
+    {
+      "name": "Person",
+      "description": "任何自然人个体，包括网民、自媒体作者等",
+      "attributes": [
+        {
+          "name": "full_name",
+          "type": "text",
+          "description": "姓名或昵称"
+        },
+        {
+          "name": "account_type",
+          "type": "text",
+          "description": "账号类型"
+        }
+      ],
+      "examples": [
+        "展望未来999",
+        "f6hjnc8sgj",
+        "读书得间"
+      ]
+    },
+    {
+      "name": "Organization",
+      "description": "任何组织机构，包括其他政府部门、企事业单位等",
+      "attributes": [
+        {
+          "name": "org_name",
+          "type": "text",
+          "description": "组织名称"
+        },
+        {
+          "name": "org_type",
+          "type": "text",
+          "description": "组织类型"
+        }
+      ],
+      "examples": [
+        "通辽市政府",
+        "未成年人保护组织"
+      ]
+    }
+  ],
+  "edge_types": [
+    {
+      "name": "FILES_REPORT",
+      "description": "向媒体反映或报案",
+      "source_targets": [
+        {
+          "source": "Parent",
+          "target": "MediaOutlet"
+        },
+        {
+          "source": "Parent",
+          "target": "PoliceAgency"
+        }
+      ],
+      "attributes": []
+    },
+    {
+      "name": "INVESTIGATES",
+      "description": "公安机关侦查案件",
+      "source_targets": [
+        {
+          "source": "PoliceAgency",
+          "target": "Suspect"
+        }
+      ],
+      "attributes": []
+    },
+    {
+      "name": "PROSECUTES",
+      "description": "检察院审查起诉",
+      "source_targets": [
+        {
+          "source": "Procuratorate",
+          "target": "Suspect"
+        }
+      ],
+      "attributes": []
+    },
+    {
+      "name": "REPORTS_ON",
+      "description": "媒体报道事件",
+      "source_targets": [
+        {
+          "source": "MediaOutlet",
+          "target": "Suspect"
+        },
+        {
+          "source": "MediaOutlet",
+          "target": "Victim"
+        }
+      ],
+      "attributes": []
+    },
+    {
+      "name": "POSTS_OPINION",
+      "description": "网民发表观点评论",
+      "source_targets": [
+        {
+          "source": "Person",
+          "target": "Suspect"
+        },
+        {
+          "source": "Person",
+          "target": "MediaOutlet"
+        }
+      ],
+      "attributes": []
+    },
+    {
+      "name": "ISSUES_GUIDANCE",
+      "description": "最高检发布指导性文件",
+      "source_targets": [
+        {
+          "source": "SupremeProcuratorate",
+          "target": "Procuratorate"
+        }
+      ],
+      "attributes": []
+    },
+    {
+      "name": "EMPLOYS",
+      "description": "雇佣关系",
+      "source_targets": [
+        {
+          "source": "Court",
+          "target": "Suspect"
+        }
+      ],
+      "attributes": []
+    },
+    {
+      "name": "PROTECTS",
+      "description": "保护未成年人权益",
+      "source_targets": [
+        {
+          "source": "Organization",
+          "target": "Victim"
+        }
+      ],
+      "attributes": []
+    }
+  ]
+}

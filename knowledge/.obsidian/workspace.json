@@ -1,0 +1,234 @@
+{
+  "main": {
+    "id": "61fa4bbf5bdb6ee9",
+    "type": "split",
+    "children": [
+      {
+        "id": "62a9d974f98f51b8",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "0b665abafdac4097",
+            "type": "leaf",
+            "state": {
+              "type": "canvas",
+              "state": {
+                "file": "舆情监测-处置全流程.canvas",
+                "viewState": {
+                  "x": 537.5,
+                  "y": 210,
+                  "zoom": -1.0090551582837817
+                }
+              },
+              "icon": "lucide-layout-dashboard",
+              "title": "舆情监测-处置全流程"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "90cf407b5287aa09",
+    "type": "split",
+    "children": [
+      {
+        "id": "dd69edb83fdcd74c",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "64c064d8b4029312",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "文件列表"
+            }
+          },
+          {
+            "id": "b4243d15d03247e1",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "搜索"
+            }
+          },
+          {
+            "id": "16fe361d24cdc631",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "书签"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "5c4c711b4a8b11b0",
+    "type": "split",
+    "children": [
+      {
+        "id": "b3a40244dfbbfe3b",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "fab1f9edd0651b46",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "林黛玉.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "林黛玉 的反向链接列表"
+            }
+          },
+          {
+            "id": "f996ca4981349c60",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "林黛玉.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "林黛玉 的出链列表"
+            }
+          },
+          {
+            "id": "249de883f8e0e1ed",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "标签"
+            }
+          },
+          {
+            "id": "6dc35c0eb8ff021e",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "添加笔记属性"
+            }
+          },
+          {
+            "id": "7a090c2a63f5245e",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "林黛玉.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "林黛玉 的大纲"
+            }
+          },
+          {
+            "id": "b1b671944e6b4b6a",
+            "type": "leaf",
+            "state": {
+              "type": "claudian-view",
+              "state": {},
+              "icon": "bot",
+              "title": "Claudian"
+            }
+          }
+        ],
+        "currentTab": 5
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "obsidian-excalidraw-plugin:新建绘图文件": false,
+      "claudian:Open Claudian": false,
+      "switcher:打开快速切换": false,
+      "graph:查看关系图谱": false,
+      "canvas:新建白板": false,
+      "daily-notes:打开/创建今天的日记": false,
+      "templates:插入模板": false,
+      "command-palette:打开命令面板": false,
+      "bases:新建数据库": false,
+      "obsidian42-brat:BRAT": false
+    }
+  },
+  "active": "64c064d8b4029312",
+  "lastOpenFiles": [
+    "舆情监测-处置全流程.canvas",
+    "_relationships.md",
+    "未命名.canvas",
+    "_entities/13岁受害少女.md",
+    "_entities/13岁受害女孩.md",
+    "林黛玉.md",
+    "贾宝玉.md",
+    "_entities/知情人.md",
+    "_entities/未成年人保护组织.md",
+    "_entities/通辽市政府.md",
+    "_entities/科尔沁左翼后旗公安局刑事警察大队.md",
+    "_entities/法院职工.md",
+    "_entities/相关监管部门.md",
+    "_entities/法律机构.md",
+    "_entities/路人甲.md",
+    "_entities/日租房.md",
+    "_entities/微信公众号_法律人那些事_.md",
+    "_entities/澎湃网.md",
+    "_entities/科尔沁左翼左翼后旗公安局刑事警察大队.md",
+    "_entities/法院职工（犯罪嫌疑人）.md",
+    "_entities/有关部门.md",
+    "_entities/相关单位.md",
+    "_entities/路人.md",
+    "_entities/网友.md",
+    "_entities/法律学者.md",
+    "_entities/微信公众号法律人那些事.md",
+    "_entities/澎湃新闻.md",
+    "舆情监测-处置全流程.png",
+    "未命名.base"
+  ]
+}
