@@ -3,12 +3,7 @@
 Thumbs.db
 
 # 环境变量（保护敏感信息）
-.env
-.env.local
 .env.*.local
-.env.development
-.env.test
-.env.production
 
 # Python
 __pycache__/
@@ -31,7 +26,6 @@ yarn-debug.log*
 yarn-error.log*
 
 # IDE
-.vscode/
 .idea/
 *.swp
 *.swo
@@ -58,3 +52,4 @@ backend/uploads/
 
 # Docker 数据
 data/
+config.bat

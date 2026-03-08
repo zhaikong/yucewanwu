@@ -230,34 +230,52 @@ class SimulationManager:
         graph_id: str,
         enable_twitter: bool = True,
         enable_reddit: bool = True,
+        enable_wechat: bool = False,
+        enable_weibo: bool = False,
+        enable_douyin: bool = False,
+        enable_kuaishou: bool = False,
+        enable_xiaohongshu: bool = False,
+        enable_shipinhao: bool = False,
     ) -> SimulationState:
         """
         创建新的模拟
-        
+
         Args:
             project_id: 项目ID
             graph_id: Zep图谱ID
             enable_twitter: 是否启用Twitter模拟
             enable_reddit: 是否启用Reddit模拟
-            
+            enable_wechat: 是否启用微信公众号模拟
+            enable_weibo: 是否启用微博模拟
+            enable_douyin: 是否启用抖音模拟
+            enable_kuaishou: 是否启用快手模拟
+            enable_xiaohongshu: 是否启用小红书模拟
+            enable_shipinhao: 是否启用微信视频号模拟
+
         Returns:
             SimulationState
         """
         import uuid
         simulation_id = f"sim_{uuid.uuid4().hex[:12]}"
-        
+
         state = SimulationState(
             simulation_id=simulation_id,
             project_id=project_id,
             graph_id=graph_id,
             enable_twitter=enable_twitter,
             enable_reddit=enable_reddit,
+            enable_wechat=enable_wechat,
+            enable_weibo=enable_weibo,
+            enable_douyin=enable_douyin,
+            enable_kuaishou=enable_kuaishou,
+            enable_xiaohongshu=enable_xiaohongshu,
+            enable_shipinhao=enable_shipinhao,
             status=SimulationStatus.CREATED,
         )
-        
+
         self._save_simulation_state(state)
         logger.info(f"创建模拟: {simulation_id}, project={project_id}, graph={graph_id}")
-        
+
         return state
     
     def prepare_simulation(

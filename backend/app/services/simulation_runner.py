@@ -372,25 +372,58 @@ class SimulationRunner:
         if enable_graph_memory_update:
             if not graph_id:
                 raise ValueError("启用图谱记忆更新时必须提供 graph_id")
-            
-            try:
-                ZepGraphMemoryManager.create_updater(simulation_id, graph_id)
-                cls._graph_memory_enabled[simulation_id] = True
-                logger.info(f"已启用图谱记忆更新: simulation_id={simulation_id}, graph_id={graph_id}")
-            except Exception as e:
-                logger.error(f"创建图谱记忆更新器失败: {e}")
+
+            # 检查是否配置了 ZEP
+            if Config.ZEP_API_KEY:
+                try:
+                    ZepGraphMemoryManager.create_updater(simulation_id, graph_id)
+                    cls._graph_memory_enabled[simulation_id] = True
+                    logger.info(f"已启用图谱记忆更新 (ZEP): simulation_id={simulation_id}, graph_id={graph_id}")
+                except Exception as e:
+                    logger.error(f"创建ZEP图谱记忆更新器失败: {e}")
+                    cls._graph_memory_enabled[simulation_id] = False
+            elif Config.OBSIDIAN_VAULT_PATH:
+                # Obsidian 模式下跳过图谱记忆更新（目前仅支持读取）
+                logger.info(f"已启用Obsidian图谱模式，跳过实时记忆更新: graph_id={graph_id}")
+                cls._graph_memory_enabled[simulation_id] = False
+            else:
+                logger.warning("未配置ZEP或Obsidian，跳过图谱记忆更新")
                 cls._graph_memory_enabled[simulation_id] = False
         else:
             cls._graph_memory_enabled[simulation_id] = False
         
         # 确定运行哪个脚本（脚本位于 backend/scripts/ 目录）
+        # 支持的平台: twitter, reddit, wechat, weibo, douyin, kuaishou, xiaohongshu, shipinhao, parallel
         if platform == "twitter":
             script_name = "run_twitter_simulation.py"
             state.twitter_running = True
         elif platform == "reddit":
             script_name = "run_reddit_simulation.py"
             state.reddit_running = True
+        elif platform == "wechat":
+            script_name = "run_chinese_platform_simulation.py"
+            state.platform = "wechat"
+        elif platform == "weibo":
+            script_name = "run_chinese_platform_simulation.py"
+            state.platform = "weibo"
+        elif platform == "douyin":
+            script_name = "run_chinese_platform_simulation.py"
+            state.platform = "douyin"
+        elif platform == "kuaishou":
+            script_name = "run_chinese_platform_simulation.py"
+            state.platform = "kuaishou"
+        elif platform == "xiaohongshu":
+            script_name = "run_chinese_platform_simulation.py"
+            state.platform = "xiaohongshu"
+        elif platform == "shipinhao":
+            script_name = "run_chinese_platform_simulation.py"
+            state.platform = "shipinhao"
+        elif platform == "chinese_parallel":
+            # 中国平台并行模拟
+            script_name = "run_chinese_parallel_simulation.py"
+            state.platform = "chinese_parallel"
         else:
+            # parallel - Twitter + Reddit
             script_name = "run_parallel_simulation.py"
             state.twitter_running = True
             state.reddit_running = True
@@ -417,7 +450,11 @@ class SimulationRunner:
                 script_path,
                 "--config", config_path,  # 使用完整配置文件路径
             ]
-            
+
+            # 中国平台单独模拟需要 --platform 参数
+            if platform in ['wechat', 'weibo', 'douyin', 'kuaishou', 'xiaohongshu', 'shipinhao']:
+                cmd.extend(["--platform", platform])
+
             # 如果指定了最大轮数，添加到命令行参数
             if max_rounds is not None and max_rounds > 0:
                 cmd.extend(["--max-rounds", str(max_rounds)])

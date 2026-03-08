@@ -730,7 +730,7 @@ class DouyinSimulator(ChinesePlatformSimulator):
         return active
 
 
-class KuaishouSimulator(DouyinSimulator):
+class KuaishouSimulator(ChinesePlatformSimulator):
     """快手模拟器 - 结构与抖音类似"""
 
     def __init__(self, config: Dict[str, Any], simulation_dir: str):
@@ -1009,7 +1009,7 @@ class XiaohongshuSimulator(ChinesePlatformSimulator):
         return active
 
 
-class ShipinhaoSimulator(DouyinSimulator):
+class ShipinhaoSimulator(ChinesePlatformSimulator):
     """微信视频号模拟器"""
 
     def __init__(self, config: Dict[str, Any], simulation_dir: str):
