@@ -221,8 +221,7 @@ const handleEnterEnvSetup = async () => {
     const res = await createSimulation({
       project_id: props.projectData.project_id,
       graph_id: props.projectData.graph_id,
-      enable_twitter: true,
-      enable_reddit: true
+      platform: 'chinese_parallel'  // 默认使用中国平台并行
     })
     
     if (res.success && res.data?.simulation_id) {

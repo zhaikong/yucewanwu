@@ -1,23 +1,23 @@
 ---
-type: SelfMedia
+type: Netizen
 name: f6hjnc8sgj
-summary: 自媒体账号，个人或团体运营的社交媒体内容创作者
+summary: 在社交媒体上发表评论的普通网民
 attributes:
 {
-  "account_name": "",
+  "nickname": "",
   "platform": "",
-  "follower_count": ""
+  "comment_type": ""
 }
 ---
 
 # f6hjnc8sgj
 
-自媒体账号，个人或团体运营的社交媒体内容创作者
+在社交媒体上发表评论的普通网民
 
 ## 属性
-- account_name: 自媒体账号名称
-- platform: 主要活跃平台
-- follower_count: 粉丝数量
+- nickname: 网名或昵称
+- platform: 活跃平台
+- comment_type: 评论立场类型
 
 ## 相关关系
 

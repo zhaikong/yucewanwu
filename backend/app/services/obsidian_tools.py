@@ -107,6 +107,8 @@ class ObsidianToolsService:
         """
         stats = self.reader.get_graph_statistics()
         stats["source"] = "obsidian"
+        # 添加 entity_types 字段以兼容 report_agent
+        stats["entity_types"] = stats.get("nodes_by_type", {})
         return stats
 
     def quick_search(self, query: str, limit: int = 10) -> SearchResult:
@@ -273,39 +275,71 @@ class ObsidianToolsService:
             total=1
         )
 
-    def get_simulation_context(self, simulation_id: str, graph_id: str = None) -> Dict[str, Any]:
+    def get_simulation_context(
+        self,
+        graph_id: str = None,
+        simulation_requirement: str = "",
+        limit: int = 30
+    ) -> Dict[str, Any]:
         """获取模拟上下文
 
         Args:
-            simulation_id: 模拟ID
-            graph_id: 图谱ID（可选，用于兼容）
+            graph_id: 图谱ID
+            simulation_requirement: 模拟需求描述
+            limit: 每类信息的数量限制（Obsidian模式下暂未使用）
         """
-        # 从模拟目录读取数据
-        sim_dir = os.path.join(
-            Config.OASIS_SIMULATION_DATA_DIR,
-            simulation_id
-        )
+        # 尝试从graph_id提取simulation_id
+        simulation_id = None
+        if graph_id:
+            # graph_id格式通常是 obsidian_xxx 或 sim_xxx
+            # 尝试找到对应的模拟目录
+            for sim_dir_name in os.listdir(Config.OASIS_SIMULATION_DATA_DIR):
+                sim_dir_path = os.path.join(Config.OASIS_SIMULATION_DATA_DIR, sim_dir_name)
+                state_file = os.path.join(sim_dir_path, "state.json")
+                if os.path.exists(state_file):
+                    try:
+                        with open(state_file, 'r', encoding='utf-8') as f:
+                            state = json.load(f)
+                            if state.get("graph_id") == graph_id:
+                                simulation_id = sim_dir_name
+                                break
+                    except Exception:
+                        continue
 
         context = {
-            "simulation_id": simulation_id,
-            "data_source": "obsidian"
+            "data_source": "obsidian",
+            "graph_statistics": self.get_graph_statistics(graph_id) if graph_id else {},
+            "total_entities": 0,
+            "related_facts": [],
+            "simulation_requirement": simulation_requirement
         }
 
         # 检查模拟目录是否存在
-        if os.path.exists(sim_dir):
-            # 尝试读取配置
-            config_path = os.path.join(sim_dir, "simulation_config.json")
-            if os.path.exists(config_path):
+        if simulation_id:
+            sim_dir = os.path.join(Config.OASIS_SIMULATION_DATA_DIR, simulation_id)
+
+            if os.path.exists(sim_dir):
+                # 尝试读取配置
+                config_path = os.path.join(sim_dir, "simulation_config.json")
+                if os.path.exists(config_path):
+                    try:
+                        with open(config_path, 'r', encoding='utf-8') as f:
+                            config = json.load(f)
+                            context["config"] = {
+                                "simulation_requirement": config.get("simulation_requirement", simulation_requirement),
+                                "total_simulation_hours": config.get("time_config", {}).get("total_simulation_hours", 0),
+                                "agent_count": len(config.get("agent_configs", []))
+                            }
+                            context["simulation_requirement"] = config.get("simulation_requirement", simulation_requirement)
+                    except Exception as e:
+                        logger.warning(f"读取模拟配置失败: {e}")
+
+                # 获取实体数量
                 try:
-                    with open(config_path, 'r', encoding='utf-8') as f:
-                        config = json.load(f)
-                        context["config"] = {
-                            "simulation_requirement": config.get("simulation_requirement", ""),
-                            "total_simulation_hours": config.get("time_config", {}).get("total_simulation_hours", 0),
-                            "agent_count": len(config.get("agent_configs", []))
-                        }
-                except Exception as e:
-                    logger.warning(f"读取模拟配置失败: {e}")
+                    stats = context.get("graph_statistics", {})
+                    context["total_entities"] = stats.get("total_nodes", 0)
+                except Exception:
+                    pass
 
         return context
 
@@ -313,16 +347,14 @@ class ObsidianToolsService:
 def create_tools_service():
     """
     工厂函数：根据配置创建适当的工具服务
+
+    优先使用 Obsidian，ZEP 已弃用
     """
-    if Config.ZEP_API_KEY:
-        from .zep_tools import ZepToolsService
-        logger.info("创建 ZepToolsService")
-        return ZepToolsService()
-    elif Config.OBSIDIAN_VAULT_PATH:
+    if Config.OBSIDIAN_VAULT_PATH:
         logger.info("创建 ObsidianToolsService")
         return ObsidianToolsService()
     else:
-        raise ValueError("未配置知识图谱数据源，请配置 ZEP_API_KEY 或 OBSIDIAN_VAULT_PATH")
+        raise ValueError("未配置知识图谱数据源，请配置 OBSIDIAN_VAULT_PATH")
 
 
 __all__ = [

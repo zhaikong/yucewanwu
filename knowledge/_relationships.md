@@ -1,34 +1,42 @@
 # 关系类型定义
 
+## REPORTS_ON
+- 描述: 媒体或记者对事件进行新闻报道
+- 来源→目标: [{'source': 'MediaOutlet', 'target': 'GovernmentAgency'}, {'source': 'Journalist', 'target': 'GovernmentAgency'}]
+
 ## FILES_REPORT
-- 描述: 向媒体反映或报案
-- 来源→目标: [{'source': 'Parent', 'target': 'MediaOutlet'}, {'source': 'Parent', 'target': 'PoliceAgency'}]
+- 描述: 当事人或家属向相关部门报案
+- 来源→目标: [{'source': 'Parent', 'target': 'GovernmentAgency'}]
 
 ## INVESTIGATES
-- 描述: 公安机关侦查案件
-- 来源→目标: [{'source': 'PoliceAgency', 'target': 'Suspect'}]
+- 描述: 公安机关对案件进行调查
+- 来源→目标: [{'source': 'GovernmentAgency', 'target': 'GovernmentOfficial'}]
 
 ## PROSECUTES
-- 描述: 检察院审查起诉
-- 来源→目标: [{'source': 'Procuratorate', 'target': 'Suspect'}]
+- 描述: 检察院对案件进行审查起诉
+- 来源→目标: [{'source': 'GovernmentAgency', 'target': 'GovernmentOfficial'}]
 
-## REPORTS_ON
-- 描述: 媒体报道事件
-- 来源→目标: [{'source': 'MediaOutlet', 'target': 'Suspect'}, {'source': 'MediaOutlet', 'target': 'Victim'}]
+## COMMENTS_ON
+- 描述: 网民或自媒体对事件发表观点评论
+- 来源→目标: [{'source': 'Netizen', 'target': 'GovernmentAgency'}, {'source': 'PublicAccount', 'target': 'GovernmentAgency'}]
 
-## POSTS_OPINION
-- 描述: 网民发表观点评论
-- 来源→目标: [{'source': 'Person', 'target': 'Suspect'}, {'source': 'Person', 'target': 'MediaOutlet'}]
+## WORKS_FOR
+- 描述: 个人在某个机构工作
+- 来源→目标: [{'source': 'GovernmentOfficial', 'target': 'GovernmentAgency'}]
 
-## ISSUES_GUIDANCE
-- 描述: 最高检发布指导性文件
-- 来源→目标: [{'source': 'SupremeProcuratorate', 'target': 'Procuratorate'}]
+## AFFILIATED_WITH
+- 描述: 个人与某机构存在隶属或关联关系
+- 来源→目标: [{'source': 'Journalist', 'target': 'MediaOutlet'}]
 
-## EMPLOYS
-- 描述: 雇佣关系
-- 来源→目标: [{'source': 'Court', 'target': 'Suspect'}]
+## REPRESENTS
+- 描述: 媒体或账号代表某主体发声
+- 来源→目标: [{'source': 'MediaOutlet', 'target': 'Person'}]
 
 ## PROTECTS
-- 描述: 保护未成年人权益
-- 来源→目标: [{'source': 'Organization', 'target': 'Victim'}]
+- 描述: 相关部门或个人保护未成年人权益
+- 来源→目标: [{'source': 'GovernmentAgency', 'target': 'Minor'}]
+
+## IS_GUARDIAN_OF
+- 描述: 监护人代表未成年人利益
+- 来源→目标: [{'source': 'Parent', 'target': 'Minor'}]
 
