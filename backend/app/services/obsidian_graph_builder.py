@@ -74,13 +74,18 @@ class ObsidianGraphBuilder:
         logger.info(f"创建 Obsidian 图谱: {name}")
         return self.graph_id
 
-    def set_ontology(self, ontology: Dict[str, Any]):
-        """设置本体定义"""
+    def set_ontology(self, graph_id: str, ontology: Dict[str, Any]):
+        """设置本体定义
+
+        Args:
+            graph_id: 图谱ID
+            ontology: 本体定义字典
+        """
         # 保存 ontology 到图谱目录
         ontology_file = os.path.join(self.vault_path, "_ontology.json")
         with open(ontology_file, 'w', encoding='utf-8') as f:
             json.dump(ontology, f, ensure_ascii=False, indent=2)
-        logger.info(f"本体定义已保存")
+        logger.info(f"本体定义已保存到: {ontology_file}")
 
     def add_text_batches(
         self,

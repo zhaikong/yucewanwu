@@ -406,7 +406,7 @@ def build_graph():
                     message="设置本体定义...",
                     progress=15
                 )
-                builder.set_ontology(ontology)
+                builder.set_ontology(graph_id, ontology)
 
                 # 提取实体
                 def obsidian_progress_callback(msg, progress_ratio):

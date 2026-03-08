@@ -100,7 +100,11 @@ class ObsidianToolsService:
         logger.info("ObsidianToolsService 初始化完成")
 
     def get_graph_statistics(self, graph_id: str = None) -> Dict[str, Any]:
-        """获取图谱统计信息"""
+        """获取图谱统计信息
+
+        Args:
+            graph_id: 图谱ID（可选，用于兼容）
+        """
         stats = self.reader.get_graph_statistics()
         stats["source"] = "obsidian"
         return stats
@@ -269,8 +273,13 @@ class ObsidianToolsService:
             total=1
         )
 
-    def get_simulation_context(self, simulation_id: str) -> Dict[str, Any]:
-        """获取模拟上下文"""
+    def get_simulation_context(self, simulation_id: str, graph_id: str = None) -> Dict[str, Any]:
+        """获取模拟上下文
+
+        Args:
+            simulation_id: 模拟ID
+            graph_id: 图谱ID（可选，用于兼容）
+        """
         # 从模拟目录读取数据
         sim_dir = os.path.join(
             Config.OASIS_SIMULATION_DATA_DIR,
