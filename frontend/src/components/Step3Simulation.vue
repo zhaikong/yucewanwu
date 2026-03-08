@@ -90,6 +90,16 @@
         </div>
       </div>
 
+      <!-- 平台选择器 -->
+      <div class="platform-selector" v-if="phase !== 1">
+        <label class="selector-label">选择平台:</label>
+        <select v-model="selectedPlatform" class="platform-select">
+          <option v-for="opt in platformOptions" :key="opt.value" :value="opt.value">
+            {{ opt.label }}
+          </option>
+        </select>
+      </div>
+
       <div class="action-controls">
         <button 
           class="action-btn primary"
@@ -323,6 +333,21 @@ const allActions = ref([]) // 所有动作（增量累积）
 const actionIds = ref(new Set()) // 用于去重的动作ID集合
 const scrollContainer = ref(null)
 
+// 平台选择
+const selectedPlatform = ref('chinese_parallel') // 默认中国平台并行
+const platformOptions = [
+  { value: 'parallel', label: '并行 (Twitter + Reddit)', platforms: ['twitter', 'reddit'] },
+  { value: 'chinese_parallel', label: '并行 (中国平台)', platforms: ['wechat', 'weibo', 'douyin', 'kuaishou', 'xiaohongshu', 'shipinhao'] },
+  { value: 'twitter', label: 'Twitter (广场/信息流)', platforms: ['twitter'] },
+  { value: 'reddit', label: 'Reddit (话题/社区)', platforms: ['reddit'] },
+  { value: 'wechat', label: '微信公众号', platforms: ['wechat'] },
+  { value: 'weibo', label: '微博', platforms: ['weibo'] },
+  { value: 'douyin', label: '抖音', platforms: ['douyin'] },
+  { value: 'kuaishou', label: '快手', platforms: ['kuaishou'] },
+  { value: 'xiaohongshu', label: '小红书', platforms: ['xiaohongshu'] },
+  { value: 'shipinhao', label: '微信视频号', platforms: ['shipinhao'] },
+]
+
 // Computed
 // 按时间顺序显示动作（最新的在最后面，即底部）
 const chronologicalActions = computed(() => {
@@ -388,13 +413,13 @@ const doStartSimulation = async () => {
   
   isStarting.value = true
   startError.value = null
-  addLog('正在启动双平台并行模拟...')
+  addLog(`正在启动 ${platformOptions.find(p => p.value === selectedPlatform.value)?.label || '并行'} 模拟...`)
   emit('update-status', 'processing')
-  
+
   try {
     const params = {
       simulation_id: props.simulationId,
-      platform: 'parallel',
+      platform: selectedPlatform.value,  // 使用选择器选中的平台
       force: true,  // 强制重新开始
       enable_graph_memory_update: true  // 开启动态图谱更新
     }
@@ -509,7 +534,8 @@ const fetchRunStatus = async () => {
       }
       
       // 检测模拟是否已完成（通过 runner_status 或平台完成状态判断）
-      const isCompleted = data.runner_status === 'completed' || data.runner_status === 'stopped'
+      // completed, stopped, failed 都视为可生成报告的状态
+      const isCompleted = ['completed', 'stopped', 'failed'].includes(data.runner_status)
       
       // 额外检查：如果后端还没来得及更新 runner_status，但平台已经报告完成
       // 通过检测 twitter_completed 和 reddit_completed 状态判断
@@ -707,6 +733,40 @@ onUnmounted(() => {
 }
 
 /* --- Control Bar --- */
+/* Platform Selector */
+.platform-selector {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.selector-label {
+  font-size: 13px;
+  color: #666;
+  white-space: nowrap;
+}
+
+.platform-select {
+  padding: 6px 12px;
+  border: 1px solid #DDD;
+  border-radius: 4px;
+  font-size: 13px;
+  background: #FFF;
+  color: #333;
+  cursor: pointer;
+  min-width: 160px;
+  transition: border-color 0.2s;
+}
+
+.platform-select:hover {
+  border-color: #999;
+}
+
+.platform-select:focus {
+  outline: none;
+  border-color: #333;
+}
+
 .control-bar {
   background: #FFF;
   padding: 12px 24px;

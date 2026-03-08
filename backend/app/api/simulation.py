@@ -168,68 +168,196 @@ def get_entities_by_type(graph_id: str, entity_type: str):
 def create_simulation():
     """
     创建新的模拟
-    
+
     注意：max_rounds等参数由LLM智能生成，无需手动设置
-    
+
     请求（JSON）：
         {
             "project_id": "proj_xxxx",      // 必填
             "graph_id": "mirofish_xxxx",    // 可选，如不提供则从project获取
-            "enable_twitter": true,          // 可选，默认true
-            "enable_reddit": true            // 可选，默认true
+            "platform": "chinese_parallel", // 可选，选择平台预设
+            "enable_twitter": true,          // 可选
+            "enable_reddit": true,           // 可选
+            "enable_wechat": true,           // 可选
+            "enable_weibo": true,            // 可选
+            "enable_douyin": true,           // 可选
+            "enable_kuaishou": true,         // 可选
+            "enable_xiaohongshu": true,      // 可选
+            "enable_shipinhao": true         // 可选
         }
-    
+
     返回：
         {
             "success": true,
             "data": {
                 "simulation_id": "sim_xxxx",
-                "project_id": "proj_xxxx",
-                "graph_id": "mirofish_xxxx",
-                "status": "created",
-                "enable_twitter": true,
-                "enable_reddit": true,
-                "created_at": "2025-12-01T10:00:00"
+                ...
             }
         }
     """
     try:
         data = request.get_json() or {}
-        
+
         project_id = data.get('project_id')
         if not project_id:
             return jsonify({
                 "success": False,
                 "error": "请提供 project_id"
             }), 400
-        
+
         project = ProjectManager.get_project(project_id)
         if not project:
             return jsonify({
                 "success": False,
                 "error": f"项目不存在: {project_id}"
             }), 404
-        
+
         graph_id = data.get('graph_id') or project.graph_id
         if not graph_id:
             return jsonify({
                 "success": False,
                 "error": "项目尚未构建图谱，请先调用 /api/graph/build"
             }), 400
-        
+
+        # 处理平台预设
+        platform = data.get('platform', 'parallel')
+
+        # 根据平台预设设置默认值
+        platform_defaults = {
+            'parallel': {
+                'enable_twitter': True,
+                'enable_reddit': True,
+                'enable_wechat': False,
+                'enable_weibo': False,
+                'enable_douyin': False,
+                'enable_kuaishou': False,
+                'enable_xiaohongshu': False,
+                'enable_shipinhao': False,
+            },
+            'chinese_parallel': {
+                'enable_twitter': False,
+                'enable_reddit': False,
+                'enable_wechat': True,
+                'enable_weibo': True,
+                'enable_douyin': True,
+                'enable_kuaishou': True,
+                'enable_xiaohongshu': True,
+                'enable_shipinhao': True,
+            },
+            'twitter': {
+                'enable_twitter': True,
+                'enable_reddit': False,
+                'enable_wechat': False,
+                'enable_weibo': False,
+                'enable_douyin': False,
+                'enable_kuaishou': False,
+                'enable_xiaohongshu': False,
+                'enable_shipinhao': False,
+            },
+            'reddit': {
+                'enable_twitter': False,
+                'enable_reddit': True,
+                'enable_wechat': False,
+                'enable_weibo': False,
+                'enable_douyin': False,
+                'enable_kuaishou': False,
+                'enable_xiaohongshu': False,
+                'enable_shipinhao': False,
+            },
+            'wechat': {
+                'enable_twitter': False,
+                'enable_reddit': False,
+                'enable_wechat': True,
+                'enable_weibo': False,
+                'enable_douyin': False,
+                'enable_kuaishou': False,
+                'enable_xiaohongshu': False,
+                'enable_shipinhao': False,
+            },
+            'weibo': {
+                'enable_twitter': False,
+                'enable_reddit': False,
+                'enable_wechat': False,
+                'enable_weibo': True,
+                'enable_douyin': False,
+                'enable_kuaishou': False,
+                'enable_xiaohongshu': False,
+                'enable_shipinhao': False,
+            },
+            'douyin': {
+                'enable_twitter': False,
+                'enable_reddit': False,
+                'enable_wechat': False,
+                'enable_weibo': False,
+                'enable_douyin': True,
+                'enable_kuaishou': False,
+                'enable_xiaohongshu': False,
+                'enable_shipinhao': False,
+            },
+            'kuaishou': {
+                'enable_twitter': False,
+                'enable_reddit': False,
+                'enable_wechat': False,
+                'enable_weibo': False,
+                'enable_douyin': False,
+                'enable_kuaishou': True,
+                'enable_xiaohongshu': False,
+                'enable_shipinhao': False,
+            },
+            'xiaohongshu': {
+                'enable_twitter': False,
+                'enable_reddit': False,
+                'enable_wechat': False,
+                'enable_weibo': False,
+                'enable_douyin': False,
+                'enable_kuaishou': False,
+                'enable_xiaohongshu': True,
+                'enable_shipinhao': False,
+            },
+            'shipinhao': {
+                'enable_twitter': False,
+                'enable_reddit': False,
+                'enable_wechat': False,
+                'enable_weibo': False,
+                'enable_douyin': False,
+                'enable_kuaishou': False,
+                'enable_xiaohongshu': False,
+                'enable_shipinhao': True,
+            },
+        }
+
+        # 获取平台预设的默认值
+        defaults = platform_defaults.get(platform, platform_defaults['parallel'])
+
+        # 显式指定的参数覆盖预设值
+        enable_twitter = data.get('enable_twitter', defaults['enable_twitter'])
+        enable_reddit = data.get('enable_reddit', defaults['enable_reddit'])
+        enable_wechat = data.get('enable_wechat', defaults['enable_wechat'])
+        enable_weibo = data.get('enable_weibo', defaults['enable_weibo'])
+        enable_douyin = data.get('enable_douyin', defaults['enable_douyin'])
+        enable_kuaishou = data.get('enable_kuaishou', defaults['enable_kuaishou'])
+        enable_xiaohongshu = data.get('enable_xiaohongshu', defaults['enable_xiaohongshu'])
+        enable_shipinhao = data.get('enable_shipinhao', defaults['enable_shipinhao'])
+
         manager = SimulationManager()
         state = manager.create_simulation(
             project_id=project_id,
             graph_id=graph_id,
-            enable_twitter=data.get('enable_twitter', True),
-            enable_reddit=data.get('enable_reddit', True),
+            enable_twitter=enable_twitter,
+            enable_reddit=enable_reddit,
+            enable_wechat=enable_wechat,
+            enable_weibo=enable_weibo,
+            enable_douyin=enable_douyin,
+            enable_kuaishou=enable_kuaishou,
+            enable_xiaohongshu=enable_xiaohongshu,
+            enable_shipinhao=enable_shipinhao,
         )
-        
+
         return jsonify({
             "success": True,
             "data": state.to_dict()
         })
-        
+
     except Exception as e:
         logger.error(f"创建模拟失败: {str(e)}")
         return jsonify({
@@ -1517,10 +1645,10 @@ def start_simulation():
                     "error": "max_rounds 必须是有效的整数"
                 }), 400
 
-        if platform not in ['twitter', 'reddit', 'parallel']:
+        if platform not in ['twitter', 'reddit', 'parallel', 'chinese_parallel', 'wechat', 'weibo', 'douyin', 'kuaishou', 'xiaohongshu', 'shipinhao']:
             return jsonify({
                 "success": False,
-                "error": f"无效的平台类型: {platform}，可选: twitter/reddit/parallel"
+                "error": f"无效的平台类型: {platform}，可选: twitter/reddit/parallel/chinese_parallel/wechat/weibo/douyin/kuaishou/xiaohongshu/shipinhao"
             }), 400
 
         # 检查模拟是否已准备好
